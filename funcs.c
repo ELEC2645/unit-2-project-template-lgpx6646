@@ -2,7 +2,7 @@
 #include "funcs.h"
 
 void menu_item_1(void) {
-    printf("\n>> Menu 1\n");
+    printf("\n>> Buck Converter\n");
     printf("\nSome code here does something useful\n");
     /* you can call a function from here that handles menu 1 */
 }
