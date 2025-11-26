@@ -16,8 +16,11 @@ static void select_menu_item(int input);/* run code based on user's choice */
 static void go_back_to_main(void);      /* wait for 'b'/'B' to continue */
 static int  is_integer(const char *s);  /* validate integer string */
 
+
 int main(void)
 {
+    /*Select converter type initially*/
+    converter_type users_conv = converter_selector();
     /* this will run forever until we call exit(0) in select_menu_item() */
     for(;;) {
         main_menu();
@@ -37,7 +40,7 @@ static void main_menu(void)
 
 static int get_user_input(void)
 {
-    enum { MENU_ITEMS = 5 };   /* 1..4 = items, 5 = Exit */
+    enum { MENU_ITEMS = 6 };   /* 1..4 = items, 5 = Exit */
     char buf[128];
     int valid_input = 0;
     int value = 0;
@@ -89,6 +92,10 @@ static void select_menu_item(int input)
             menu_item_4();
             go_back_to_main();
             break;
+        case 5:
+            menu_item_5();
+            go_back_to_main();
+            break;
         default:
             printf("Bye!\n");
             exit(0);
@@ -100,11 +107,12 @@ static void print_main_menu(void)
     printf("\n----------- Choose your converter type -----------\n");
     printf("\n"
            "\t\t\t\t\t\t\n"
-           "\t1. Buck Converter\t\t\n"
-           "\t2. Boost Converter\t\t\n"
-           "\t3. Buck-Boost Converter\t\n"
-           "\t4. Cuk Converter\t\t\n"
-           "\t5. Exit\t\t\t\t\n"
+           "\t1. Inductor Selector\t\t\n"
+           "\t2. Output Capacitor Selector\t\n"
+           "\t3. Boundary Current Calculator\n"
+           "\t4. CCM or DCM Calculator\t\t\n"
+           "\t5. Change Converter Type\t\t\n"
+           "\t6. Exit\t\t\t\t\n"
            "\t\t\t\t\t\t\n");
     printf("-------------------------------------------------\n");
 }
