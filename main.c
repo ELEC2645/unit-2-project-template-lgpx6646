@@ -9,10 +9,10 @@
 #include "funcs.h"
 
 /* Prototypes mirroring the C++ version */
-static void main_menu(void);            /* runs in the main loop */
+static void main_menu(converter_type c);            /* runs in the main loop */
 static void print_main_menu(void);      /* output the main menu description */
 static int  get_user_input(void);       /* get a valid integer menu choice */
-static void select_menu_item(int input);/* run code based on user's choice */
+static void select_menu_item(int input, converter_type c);/* run code based on user's choice */
 static void go_back_to_main(void);      /* wait for 'b'/'B' to continue */
 static int  is_integer(const char *s);  /* validate integer string */
 
@@ -21,20 +21,21 @@ int main(void)
 {
     /*Select converter type initially*/
     converter_type users_conv = converter_selector();
+    
     /* this will run forever until we call exit(0) in select_menu_item() */
     for(;;) {
-        main_menu();
+        main_menu(users_conv);
     }
     /* not reached */
     return 0;
 }
 
-static void main_menu(void)
+static void main_menu(converter_type c)
 {
     print_main_menu();
     {
         int input = get_user_input();
-        select_menu_item(input);
+        select_menu_item(input, c);
     }
 }
 
@@ -73,12 +74,18 @@ static int get_user_input(void)
     return value;
 }
 
-static void select_menu_item(int input)
+static void select_menu_item(int input, converter_type c)
 {
     switch (input) {
         case 1:
-            menu_item_1();
-            go_back_to_main();
+            if (c == BUCK){ //checks if buck was selected
+                inductor_selector_buck();//runs inductor selector function for buck
+                go_back_to_main();
+            }
+            else { //checks if boost was selected
+                inductor_selector_boost(); //runs inductor selector function for boost
+                go_back_to_main();
+            }
             break;
         case 2:
             menu_item_2();
@@ -93,7 +100,7 @@ static void select_menu_item(int input)
             go_back_to_main();
             break;
         case 5:
-            menu_item_5();
+            change_converter();//lets user change between buck or boost converter
             go_back_to_main();
             break;
         default:
