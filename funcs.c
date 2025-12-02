@@ -31,14 +31,31 @@ converter_type converter_selector(void) { //asks user to input their converter t
 
 
 void inductor_selector_buck(void) { //performs a calculation to find correct inductor values for a buck converter
-    printf("\n>> Inductor Selector Boost\n");
-    printf("\nWORKS BUCK\n");
-    
+    printf("\n>> Inductor Selector Buck\n");
+    printf("\nInput Vout: \n");
+    //scanf Vout
+    printf("\nInput Vin: \n");
+    //scanf Vin
+    printf("\nInput current ripple: \n");
+    //scanf deltai
+    printf("\nInput switching frequency: \n");
+    //scanf fs
+    float K = Vout/ Vin;
+    float L = ((1-K)*Vout)/(fs*deltai);
 }
 
 void inductor_selector_boost(void){ //performs a calculation to find correct inductor values for a boost converter
-    printf("\n>> Inductor Selector\n");
-    printf("\nWORKS BOOST\n");
+    printf("\n>> Inductor Selector Boost\n");
+    printf("\nInput Vin: \n");
+
+    printf("\nInput Vout: \n");
+
+    printf("\nInput current ripple: \n");
+
+    printf("\nInput switching frequency: \n");
+
+    float K = 1 - (Vin/Vout);
+    float L = (Vin * K)/(fs * deltai)
 }
 
 void menu_item_2(void) {

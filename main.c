@@ -111,7 +111,7 @@ static void select_menu_item(int input, converter_type c)
 
 static void print_main_menu(void)
 {
-    printf("\n----------- Choose your converter type -----------\n");
+    printf("\n----------- Main Menu -----------\n");
     printf("\n"
            "\t\t\t\t\t\t\n"
            "\t1. Inductor Selector\t\t\n"
