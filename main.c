@@ -9,10 +9,10 @@
 #include "funcs.h"
 
 /* Prototypes mirroring the C++ version */
-static void main_menu(converter_type c);            /* runs in the main loop */
+static converter_type main_menu(converter_type c);            /* runs in the main loop */
 static void print_main_menu(void);      /* output the main menu description */
 static int  get_user_input(void);       /* get a valid integer menu choice */
-static void select_menu_item(int input, converter_type c);/* run code based on user's choice */
+static converter_type select_menu_item(int input, converter_type c);/* run code based on user's choice */
 static void go_back_to_main(void);      /* wait for 'b'/'B' to continue */
 static int  is_integer(const char *s);  /* validate integer string */
 
@@ -24,13 +24,13 @@ int main(void)
     
     /* this will run forever until we call exit(0) in select_menu_item() */
     for(;;) {
-        main_menu(users_conv);
+       users_conv = main_menu(users_conv);
     }
     /* not reached */
     return 0;
 }
 
-static void main_menu(converter_type c)
+static converter_type main_menu(converter_type c)
 {
     print_main_menu();
     {
@@ -74,25 +74,34 @@ static int get_user_input(void)
     return value;
 }
 
-static void select_menu_item(int input, converter_type c)
+static converter_type select_menu_item(int input, converter_type c)
 {
     switch (input) {
         case 1:
             if (c == BUCK){ //checks if buck was selected
                 inductor_selector_buck();//runs inductor selector function for buck
-                go_back_to_main();
             }
             else { //checks if boost was selected
                 inductor_selector_boost(); //runs inductor selector function for boost
-                go_back_to_main();
             }
+            go_back_to_main();
             break;
         case 2:
-            menu_item_2();
+            if (c == BUCK){ //checks if buck was selected
+                capacitor_selector_buck();//runs capacitor selector function for buck
+            }
+            else { //checks if boost was selected
+                capacitor_selector_boost(); //runs capacitor selector function for boost
+            }
             go_back_to_main();
             break;
         case 3:
-            menu_item_3();
+            if (c == BUCK){ //checks if buck was selected
+                boundary_current_buck();//runs boundary current function for buck
+            }
+            else { //checks if boost was selected
+                boundary_current_boost(); //runs boundary current function for boost
+            }
             go_back_to_main();
             break;
         case 4:
@@ -100,7 +109,8 @@ static void select_menu_item(int input, converter_type c)
             go_back_to_main();
             break;
         case 5:
-            change_converter();//lets user change between buck or boost converter
+            converter_type new_conv = change_converter();//lets user change between buck or boost converter
+            return new_conv;
             go_back_to_main();
             break;
         default:

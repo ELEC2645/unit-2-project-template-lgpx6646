@@ -10,9 +10,11 @@ typedef enum{
 converter_type converter_selector(void);
 void inductor_selector_buck(void);
 void inductor_selector_boost(void);
-void menu_item_2(void);
-void menu_item_3(void);
+void capacitor_selector_buck(void);
+void capacitor_selector_boost(void);
+void boundary_current_buck(void);
+void boundary_current_boost(void);
 void menu_item_4(void);
-void change_converter(void);
+converter_type change_converter(void);
 
 #endif
