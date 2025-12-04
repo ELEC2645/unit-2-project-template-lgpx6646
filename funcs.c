@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h> // for atof
 #include "funcs.h"
+#define MAX_NUMBERS 100 // maximum numbers to process from input file
+#define MAX_LINE 100 //maximum numbers to process in file
 
 converter_type converter_selector(void) { //asks user to input their converter type
     while(1){ 
@@ -165,6 +168,31 @@ void menu_item_4(void) {
     printf("\n>> Menu 4\n");
     printf("\nSome code here does something useful\n");
     /* you can call a function from here that handles menu 4 */
+}
+
+void read_file(const char *filename){ //functiom to read data from file inputted by user
+    FILE *input = fopen(filename, "r");
+    //FILE *output = fopen("graph.txt", "w");
+
+    int count = 0;
+    float numbers[MAX_NUMBERS]; //array to hold numbers read from file
+    char line[MAX_LINE]; //buffer to hold each line read
+
+    if (input == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+    else {
+        while(fgets(line, MAX_LINE, input) && count < MAX_NUMBERS){ //checks if end of file has been reached
+            numbers[count++] = atof(line); //convert string to float and store in array
+        }
+    }
+    
+    for (int i = 0; i < count; i++) {
+    printf("%f\n", numbers[i]);
+    }
+
+    fclose(input);
 }
 
 converter_type change_converter(void) { //allows user to change converter type, between buck and boost
