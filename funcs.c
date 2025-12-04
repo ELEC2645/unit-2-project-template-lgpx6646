@@ -44,11 +44,17 @@ void inductor_selector_buck(void) { //performs a calculation to find correct ind
             printf("Invalid input! Please enter a number.");
     }
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput current ripple: \n");
-    scanf("%f",&deltai);
+    if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = Vout/ Vin; //finds duty ratio
     float L = ((1-K)*Vout)/(fs*deltai); //finds inductance
     printf("Inductance = %f",L);
@@ -61,13 +67,21 @@ void inductor_selector_boost(void){ //performs a calculation to find correct ind
     float fs;
     printf("\n>> Inductor Selector Boost\n");
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput Vout: \n");
-    scanf("%f",&Vout);
+    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput current ripple: \n");
-    scanf("%f",&deltai);
+    if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = 1 - (Vin/Vout); //finds duty ratio
     float L = (Vin * K)/(fs * deltai); //finds inductance
     printf("Inductance = %f",L);
@@ -81,15 +95,25 @@ void capacitor_selector_buck(void) {
     float fs;
     printf("\n>> Capacitor Selector Buck\n");
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput Vout: \n");
-    scanf("%f",&Vout);
+    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput voltage ripple: \n");
-    scanf("%f",&deltav);
+    if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput inductance: \n");
-    scanf("%f",&L);
+    if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = Vout/ Vin;
     float C = (Vout/(8*pow(fs,2)*deltav*L))*(1-K);
     printf("Capacitance = %f",C);
@@ -103,15 +127,25 @@ void capacitor_selector_boost(void) {
     float R;
     printf("\n>> Capacitor Selector Boost\n");
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput Vout: \n");
-    scanf("%f",&Vout);
+    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput voltage ripple: \n");
-    scanf("%f",&deltav);
+    if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput load resistance: \n");
-    scanf("%f",&R);
+    if(scanf("%f",&R) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = 1- (Vin/ Vout);
     float C = (Vout*K)/(deltav*R*fs);
     printf("Capacitance = %f",C);
@@ -124,13 +158,21 @@ void boundary_current_buck(void) {
     float fs;
     float L;
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput Vout: \n");
-    scanf("%f",&Vout);
+    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput inductance: \n");
-    scanf("%f",&L);
+    if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = Vout/Vin;
     float T = 1/fs;
     float I = ((Vin * T)/(2*L)) * K *(1-K);
@@ -146,13 +188,21 @@ void boundary_current_boost(void) {
     float fs;
     float L;
     printf("\nInput Vin: \n");
-    scanf("%f",&Vin);
+    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput Vout: \n");
-    scanf("%f",&Vout);
+    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput switching frequency: \n");
-    scanf("%f",&fs);
+    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     printf("\nInput inductance: \n");
-    scanf("%f",&L);
+    if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+    }
     float K = 1 - Vin/Vout;
     float T = 1/fs;
     float I = ((Vin * T)/(2*L)) * K *(1-K);
@@ -170,7 +220,7 @@ void menu_item_4(void) {
     /* you can call a function from here that handles menu 4 */
 }
 
-void read_file(const char *filename){ //functiom to read data from file inputted by user
+void read_file(const char *filename){ //function to read data from file inputted by user
     FILE *input = fopen(filename, "r");
     //FILE *output = fopen("graph.txt", "w");
 
