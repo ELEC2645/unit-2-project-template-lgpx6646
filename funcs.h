@@ -1,6 +1,8 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
+#define MAX_DATA 30
+
 typedef enum{
     BUCK,
     BOOST
@@ -17,5 +19,15 @@ void boundary_current_boost(void);
 void menu_item_4(void);
 void read_file(const char *filename);
 converter_type change_converter(void);
+
+struct Converter {
+    double Vin;
+    double Vout;
+    double L;
+    double fs;
+    double R;
+    double deltav;
+    double deltai;
+};
 
 #endif

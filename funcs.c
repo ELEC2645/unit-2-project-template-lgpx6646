@@ -221,7 +221,8 @@ void menu_item_4(void) {
 }
 
 void read_file(const char *filename){ //function to read data from file inputted by user
-    FILE *input = fopen(filename, "r");
+    struct Converter converter1[MAX_DATA];
+        FILE *input = fopen(filename, "r");
     //FILE *output = fopen("graph.txt", "w");
 
     int count = 0;
@@ -232,14 +233,24 @@ void read_file(const char *filename){ //function to read data from file inputted
         printf("Error opening file.\n");
         return;
     }
-    else {
-        while(fgets(line, MAX_LINE, input) && count < MAX_NUMBERS){ //checks if end of file has been reached
-            numbers[count++] = atof(line); //convert string to float and store in array
+    fgets(line, sizeof(line), input); //skips header    
+
+    while(fgets(line, sizeof(line), input) && count < MAX_NUMBERS){ //checks if end of file has been reached
+        if (sscanf(line, "%lf %lf %lf %lf %lf %lf %lf",
+                &converter1[count].Vin,
+                &converter1[count].Vout,
+                &converter1[count].L,
+                &converter1[count].fs,
+                &converter1[count].R,
+                &converter1[count].deltav,
+                &converter1[count].deltai)==7){
+        count++;
         }
     }
+
     
     for (int i = 0; i < count; i++) {
-    printf("%f\n", numbers[i]);
+    printf("%lf\n",converter1[i].L);
     }
 
     fclose(input);
