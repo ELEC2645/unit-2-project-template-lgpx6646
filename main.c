@@ -26,6 +26,7 @@ int main(void)
     for(;;) {
        users_conv = main_menu(users_conv);
     }
+
     /* not reached */
     return 0;
 }

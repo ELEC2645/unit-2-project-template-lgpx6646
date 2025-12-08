@@ -221,68 +221,48 @@ void menu_item_4(void) {
     /* you can call a function from here that handles menu 4 */
 }
 
-int file_or_manual(){ //asks if the user wants to input a file 
-/*Returns 1 if user wants to use a file*/
-   char buf[64];
-    do {
-        printf("\nWould you like to use a file to input your data? (Please enter yes or no.) ");
-        if (!fgets(buf, sizeof(buf), stdin)) {
-            puts("\nInput error. Exiting."); //exits program if there is an error
-            exit(1);
-        }
-        buf[strcspn(buf, "\r\n")] = '\0'; /* strip newline */
-    } while (!(strcmp(buf,"yes")==0 || strcmp(buf,"no")==0)); //checks if input is yes or no
-
-    if (strcmp("yes",buf)==0){ //compares input to yes
-        return 1;
-    }
-    else{
-        return 0; // returns 0 if user wants to user manual input
-    }
-}
-
-int read_file(const char *filename){ //function to read data from file inputted by user
+Converter* read_file(const char *filename, int *count){ //function to read data from file inputted by user
     char line[256];
     FILE *input = fopen(filename, "r");
     //FILE *output = fopen("graph.txt", "w");
 
     if (input == NULL) { //checks for errors when opening file
         printf("Error opening file.\n");
-        return 1;
+        return NULL;
     }
     
-    Converter converters[100];
+    Converter *converters = malloc(100 * sizeof(Converter)); //assign data to a pointer, so can be used elsewhere (max lines=100)
 
     int read = 0;
-    int count = 0;
+    *count = 0;
     fgets(line, sizeof(line), input); //skips header 
 
     do
     {
         read = fscanf(input, //reads input from file into struct
                        "%lf,%lf,%lf,%lf,%lf,%lf,%lf\n",
-                        &converters[count].Vin,
-                        &converters[count].Vout,
-                        &converters[count].L,
-                        &converters[count].fs,
-                        &converters[count].R,
-                        &converters[count].deltav,
-                        &converters[count].deltai);
-        if (read == 7) count++;
+                        &converters[*count].Vin,
+                        &converters[*count].Vout,
+                        &converters[*count].L,
+                        &converters[*count].fs,
+                        &converters[*count].R,
+                        &converters[*count].deltav,
+                        &converters[*count].deltai);
+        if (read == 7) (*count)++;
         if (read != 7 && !feof(input)) //checks if 7 values have been read
         {
                 printf("File format incorrect.\n");
-                return 1;
+                return NULL;
         }
         if (ferror(input)){ //checks for errors when reading file
                 printf("Error reading file.\n");
-                return 1;
+                return NULL;
         }
     } while(!feof(input)); //reads file until end of file
     
     fclose(input);
 
-    for (int i=0; i<count; i++){
+    for (int i=0; i<*count; i++){
         printf("%lf %lf %lf %lf %lf %lf %lf\n",
                 converters[i].Vin,
                 converters[i].Vout,
@@ -294,7 +274,37 @@ int read_file(const char *filename){ //function to read data from file inputted 
         );
         printf("\n");
     }
+
+    return converters; 
 }
+
+Converter* file_or_manual(){ //asks if the user wants to input a file 
+        int count;
+/*Returns file data if user wants to use a file*/
+   char buf[64];
+    do {
+        printf("\nWould you like to use a file to input your data? (Please enter yes or no.) ");
+        if (!fgets(buf, sizeof(buf), stdin)) {
+            puts("\nInput error. Exiting."); //exits program if there is an error
+            exit(1);
+        }
+        buf[strcspn(buf, "\r\n")] = '\0'; /* strip newline */
+    } while (!(strcmp(buf,"yes")==0 || strcmp(buf,"no")==0)); //checks if input is yes or no
+
+    if (strcmp("yes",buf)==0){ //compares input to yes
+        printf("Enter file name: \n");
+        char name[64];
+        fgets(name, sizeof(name), stdin);
+        name[strcspn(name, "\r\n")] = '\0';//strips trailing newline
+        return read_file(name, &count); //reads file
+    }
+    else{
+        printf("Manual input");
+    }
+    return NULL;
+    //exits if user wants manual input
+}
+
 
 converter_type change_converter(void) { //allows user to change converter type, between buck and boost
     printf("\n>> Change Converter Type\n");
