@@ -1,5 +1,5 @@
 // ELEC2645 Unit 2 Project
-// Command Line Application Menu Handling Code
+// Power Electronics Calculator
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,7 +41,7 @@ static converter_type main_menu(converter_type c)
 
 static int get_user_input(void)
 {
-    enum { MENU_ITEMS = 6 };   /* 1..4 = items, 5 = Exit */
+    enum { MENU_ITEMS = 6 };   /* 1..5 = items, 6 = Exit */
     char buf[128];
     int valid_input = 0;
     int value = 0;
@@ -150,6 +150,7 @@ static void go_back_to_main(void)
 /* Return 1 if s is an optional [+/-] followed by one-or-more digits, else 0. */
 static int is_integer(const char *s)
 {
+
     if (!s || !*s) return 0;
 
     /* optional sign */

@@ -17,10 +17,11 @@ void capacitor_selector_boost(void);
 void boundary_current_buck(void);
 void boundary_current_boost(void);
 void menu_item_4(void);
-void read_file(const char *filename);
+int read_file(const char *filename);
+int file_or_manual();
 converter_type change_converter(void);
 
-struct Converter {
+typedef struct {
     double Vin;
     double Vout;
     double L;
@@ -28,6 +29,6 @@ struct Converter {
     double R;
     double deltav;
     double deltai;
-};
+} Converter;
 
 #endif

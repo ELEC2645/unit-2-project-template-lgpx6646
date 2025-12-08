@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h> // for atof
+#include <string.h>
 #include "funcs.h"
 #define MAX_NUMBERS 100 // maximum numbers to process from input file
 #define MAX_LINE 100 //maximum numbers to process in file
@@ -146,7 +147,7 @@ void capacitor_selector_boost(void) {
     if(scanf("%f",&R) != 1) { //checks user has inputted a number
             printf("Invalid input! Please enter a number.");
     }
-    float K = 1- (Vin/ Vout);
+    float K = 1 - (Vin/ Vout);
     float C = (Vout*K)/(deltav*R*fs);
     printf("Capacitance = %f",C);
 }
@@ -220,40 +221,79 @@ void menu_item_4(void) {
     /* you can call a function from here that handles menu 4 */
 }
 
-void read_file(const char *filename){ //function to read data from file inputted by user
-    struct Converter converter1[MAX_DATA];
-        FILE *input = fopen(filename, "r");
+int file_or_manual(){ //asks if the user wants to input a file 
+/*Returns 1 if user wants to use a file*/
+   char buf[64];
+    do {
+        printf("\nWould you like to use a file to input your data? (Please enter yes or no.) ");
+        if (!fgets(buf, sizeof(buf), stdin)) {
+            puts("\nInput error. Exiting."); //exits program if there is an error
+            exit(1);
+        }
+        buf[strcspn(buf, "\r\n")] = '\0'; /* strip newline */
+    } while (!(strcmp(buf,"yes")==0 || strcmp(buf,"no")==0)); //checks if input is yes or no
+
+    if (strcmp("yes",buf)==0){ //compares input to yes
+        return 1;
+    }
+    else{
+        return 0; // returns 0 if user wants to user manual input
+    }
+}
+
+int read_file(const char *filename){ //function to read data from file inputted by user
+    char line[256];
+    FILE *input = fopen(filename, "r");
     //FILE *output = fopen("graph.txt", "w");
 
-    int count = 0;
-    float numbers[MAX_NUMBERS]; //array to hold numbers read from file
-    char line[MAX_LINE]; //buffer to hold each line read
-
-    if (input == NULL) {
+    if (input == NULL) { //checks for errors when opening file
         printf("Error opening file.\n");
-        return;
+        return 1;
     }
-    fgets(line, sizeof(line), input); //skips header    
-
-    while(fgets(line, sizeof(line), input) && count < MAX_NUMBERS){ //checks if end of file has been reached
-        if (sscanf(line, "%lf %lf %lf %lf %lf %lf %lf",
-                &converter1[count].Vin,
-                &converter1[count].Vout,
-                &converter1[count].L,
-                &converter1[count].fs,
-                &converter1[count].R,
-                &converter1[count].deltav,
-                &converter1[count].deltai)==7){
-        count++;
-        }
-    }
-
     
-    for (int i = 0; i < count; i++) {
-    printf("%lf\n",converter1[i].L);
-    }
+    Converter converters[100];
 
+    int read = 0;
+    int count = 0;
+    fgets(line, sizeof(line), input); //skips header 
+
+    do
+    {
+        read = fscanf(input, //reads input from file into struct
+                       "%lf,%lf,%lf,%lf,%lf,%lf,%lf\n",
+                        &converters[count].Vin,
+                        &converters[count].Vout,
+                        &converters[count].L,
+                        &converters[count].fs,
+                        &converters[count].R,
+                        &converters[count].deltav,
+                        &converters[count].deltai);
+        if (read == 7) count++;
+        if (read != 7 && !feof(input)) //checks if 7 values have been read
+        {
+                printf("File format incorrect.\n");
+                return 1;
+        }
+        if (ferror(input)){ //checks for errors when reading file
+                printf("Error reading file.\n");
+                return 1;
+        }
+    } while(!feof(input)); //reads file until end of file
+    
     fclose(input);
+
+    for (int i=0; i<count; i++){
+        printf("%lf %lf %lf %lf %lf %lf %lf\n",
+                converters[i].Vin,
+                converters[i].Vout,
+                converters[i].L,
+                converters[i].fs,
+                converters[i].R,
+                converters[i].deltav,
+                converters[i].deltai
+        );
+        printf("\n");
+    }
 }
 
 converter_type change_converter(void) { //allows user to change converter type, between buck and boost
