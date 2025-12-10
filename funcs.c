@@ -14,7 +14,7 @@ converter_type converter_selector(void) { //asks user to input their converter t
         printf("\n\t\t\t\t----------Choose your converter type: -----------\n"
                "\t\t\t\t|\t\t1. Buck\t\t\t\t|\n"
                "\t\t\t\t|\t\t2. Boost\t\t\t|\n"                           
-               "\t\t\t\t-------------------------------------------------\n"
+               "\t\t\t\t------------------------------------------------\n"
                "\nEnter choice: ");
     
         if(scanf("%d",&choice) != 1) { //checks user has inputted a number
@@ -338,7 +338,7 @@ int boundary_current_buck(void) {
     fprintf(output,"K, Boundary Current\n"); //header
         printf("Boundary Current = \n");
                 for (int i = 0; i < count; i++ ){//loop through arrays
-                        double K = converters[i].Vin/converters[i].Vout; //finds duty ratio
+                        double K = converters[i].Vout/converters[i].Vin; //finds duty ratio
                         double T = 1/converters[i].fs; //finds period 
                         double I = ((converters[i].Vin * T)/(2 * converters[i].L)) * K * (1-K);
                         fprintf(output, "%lf,%lf\n",K,I); //add data to output file
