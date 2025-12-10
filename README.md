@@ -6,6 +6,7 @@ This program allows the user to import data via csv files or manually, by typing
 -  Inductor selector calculations
 -  Output capacitor selector calculations
 -  Boundary current calculations
+
 These calculations can be performed for both buck and boost converters, as selected by the user
 
 The results of the boundary current calculations, when using a file of data, are written into a csv file, which can be exported into excel and used to produce a graph.
