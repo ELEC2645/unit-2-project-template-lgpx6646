@@ -11,10 +11,10 @@
 converter_type converter_selector(void) { //asks user to input their converter type
     while(1){ 
         int choice;
-        printf("\n\t----------Choose your converter type: -----------\n"
-               "\t|\t\t1. Buck\t\t\t\t|\n"
-               "\t|\t\t2. Boost\t\t\t|\n"                           
-               "\t-------------------------------------------------\n"
+        printf("\n\t\t\t\t----------Choose your converter type: -----------\n"
+               "\t\t\t\t|\t\t1. Buck\t\t\t\t|\n"
+               "\t\t\t\t|\t\t2. Boost\t\t\t|\n"                           
+               "\t\t\t\t-------------------------------------------------\n"
                "\nEnter choice: ");
     
         if(scanf("%d",&choice) != 1) { //checks user has inputted a number
@@ -27,8 +27,12 @@ converter_type converter_selector(void) { //asks user to input their converter t
 
 
         switch (choice) {
-            case 1: return BUCK;
-            case 2: return BOOST;
+            case 1: 
+            printf("\nYou have selected BUCK.\n");
+            return BUCK;
+            case 2: 
+            printf("\nYou have selected BOOST.\n");
+            return BOOST;
             default: printf("Invalid choice! Please enter 1 or 2.\n"); //makes sure user can only input 1 or 2
 
         }
@@ -77,19 +81,6 @@ Converter* read_file(const char *filename, int *count){ //function to read data 
     
     fclose(input);
 
-    for (int i=0; i<*count; i++){
-        printf("%lf %lf %lf %lf %lf %lf %lf\n",
-                converters[i].Vin,
-                converters[i].Vout,
-                converters[i].L,
-                converters[i].fs,
-                converters[i].R,
-                converters[i].deltav,
-                converters[i].deltai
-        );
-        printf("\n");
-    }
-
     return converters; 
 }
 
@@ -97,7 +88,7 @@ Converter* file_or_manual(int *count){ //asks if the user wants to input a file
 /*Returns file data if user wants to use a file*/
    char buf[64];
     do {
-        printf("\nWould you like to use a file to input your data? (Please enter yes or no.) ");
+        printf("\nWould you like to use a file to input your data? (Please enter yes or no.) \n");
         if (!fgets(buf, sizeof(buf), stdin)) {
             puts("\nInput error. Exiting."); //exits program if there is an error
             exit(1);
@@ -112,15 +103,14 @@ Converter* file_or_manual(int *count){ //asks if the user wants to input a file
         name[strcspn(name, "\r\n")] = '\0';//strips trailing newline
         return read_file(name, count); //reads file
     }
-    else{
-        printf("Manual input");
-    }
+
     return NULL;
     //exits if user wants manual input
 }
 
 void inductor_selector_buck() { //performs a calculation to find correct inductor values for a buck converter
-        printf("\n>> Inductor Selector Buck\n");
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
+    printf("\n>> Inductor Selector Buck\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
 
@@ -157,12 +147,14 @@ void inductor_selector_buck() { //performs a calculation to find correct inducto
                 converters[i].L = ((1-K)*converters[i].Vout)/(converters[i].fs*converters[i].deltai); //finds inductance 
                 printf("%d \t %lf \n",i,converters[i].L);
         }
+        printf("\nPlease press enter to continue.\n");
     }
     free(converters);
 }
 
 void inductor_selector_boost(void){ //performs a calculation to find correct inductor values for a boost converter
-        printf("\n>> Inductor Selector Boost\n");
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
+    printf("\n>> Inductor Selector Boost\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
 
@@ -199,11 +191,13 @@ void inductor_selector_boost(void){ //performs a calculation to find correct ind
                                 converters[i].L = (converters[i].Vin * K)/(converters[i].fs * converters[i].deltai); //finds inductance 
                                  printf("%d \t %lf \n",i,converters[i].L);
         }
+        printf("\nPlease press enter to continue.\n");
         }
         free(converters);
 }
 
 void capacitor_selector_buck(void) {
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Capacitor Selector Buck\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
@@ -246,11 +240,13 @@ void capacitor_selector_buck(void) {
                                 double C = (converters[i].Vout/(8*pow(converters[i].fs,2)*converters[i].deltav*converters[i].L))*(1-K); //finds capacitance 
                                 printf("%d \t %lf \n",i,C);
                         }
+        printf("\nPlease press enter to continue.\n");
     }
     free(converters);
 }
 
 void capacitor_selector_boost(void) {
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Capacitor Selector Boost\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
@@ -293,11 +289,13 @@ void capacitor_selector_boost(void) {
                         double C = (converters[i].Vout*K)/(converters[i].deltav*converters[i].R*converters[i].fs); //finds capacitance 
                         printf("%d \t %lf \n",i,C);
         }
+        printf("\nPlease press enter to continue.\n");
     }
     free(converters);
 }
 
 int boundary_current_buck(void) {
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Boundary Current Calculator Buck\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
@@ -352,12 +350,14 @@ int boundary_current_buck(void) {
                         double Imax = (T * converters[i].Vin)/ (8 * converters[i].L);
                         printf("%d \t %lf \n",i,Imax);
                 }
+    printf("\nPlease press enter to continue.\n");
     fclose(output);//close output file
     }   
     free(converters);
 }
 
 int boundary_current_boost(void) {
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Boundary Current Calculator Boost\n");
     int count = 0;
     Converter* converters = file_or_manual(&count);
@@ -421,6 +421,7 @@ int boundary_current_boost(void) {
                         double Imax = (T * converters[i].Vin)/ (8 * converters[i].L);
                         printf("%d \t %lf \n",i,Imax);
                 }
+        printf("\nPlease press enter to continue.\n");
         fclose(output);//close output file
     }   
     free(converters); 
@@ -428,6 +429,7 @@ int boundary_current_boost(void) {
 
 
 converter_type change_converter(void) { //allows user to change converter type, between buck and boost
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Change Converter Type\n");
     converter_type users_conv = converter_selector();
     return users_conv;

@@ -20,9 +20,12 @@ static int  is_integer(const char *s);  /* validate integer string */
 int main(void)
 {
     printf("\n----------------------------------------------------------------------------------------------------------\n");
+    printf("\n\t\t\t\tWelcome to the power converter calculator!\n");
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     /*Select converter type initially*/
     converter_type users_conv = converter_selector();
-    printf("\n----------------------------------------------------------------------------------------------------------\n");
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { } //clears input buffer
     /* this will run forever until we call exit(0) in select_menu_item() */
     for(;;) {
        users_conv = main_menu(users_conv);
@@ -120,17 +123,20 @@ static converter_type select_menu_item(int input, converter_type c)
 
 static void print_main_menu(void)
 {
-    printf("\n-------------- Main Menu ----------------\n"
-           "|\t1. Inductor Selector\t\t|\n"
-           "|\t2. Output Capacitor Selector\t|\n"
-           "|\t3. Boundary Current Calculator\t|\n"
-           "|\t4. Change Converter Type\t|\n"
-           "|\t5. Exit\t\t\t\t|\n");
-    printf("-----------------------------------------\n");
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
+    printf("\n\t\t\t\t-------------- Main Menu ----------------\n"
+           "\t\t\t\t|\t1. Inductor Selector\t\t|\n"
+           "\t\t\t\t|\t2. Output Capacitor Selector\t|\n"
+           "\t\t\t\t|\t3. Boundary Current Calculator\t|\n"
+           "\t\t\t\t|\t4. Change Converter Type\t|\n"
+           "\t\t\t\t|\t5. Exit\t\t\t\t|\n");
+    printf("\t\t\t\t-----------------------------------------\n");
 }
 
 static void go_back_to_main(void)
 {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { } //clears input buffer
     char buf[64];
     do {
         printf("\nEnter 'b' or 'B' to go back to main menu: ");
