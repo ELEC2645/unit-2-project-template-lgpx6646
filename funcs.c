@@ -189,14 +189,14 @@ void inductor_selector_boost(void){ //performs a calculation to find correct ind
                         for (int i = 0; i < count; i++ ){
                                 double K = 1 - (converters[i].Vin/ converters[i].Vout); //finds duty ratio
                                 converters[i].L = (converters[i].Vin * K)/(converters[i].fs * converters[i].deltai); //finds inductance 
-                                 printf("%d \t %lf \n",i,converters[i].L);
+                                 printf("%d \t %lf \n",i,converters[i].L); //prints inductances
         }
         printf("\nPlease press enter to continue.\n");
         }
         free(converters);
 }
 
-void capacitor_selector_buck(void) {
+void capacitor_selector_buck(void) {//calculates capacitance for buck converter
     printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Capacitor Selector Buck\n");
     int count = 0;
@@ -235,7 +235,7 @@ void capacitor_selector_buck(void) {
     }
     else{
          printf("Capacitance = \n");
-                        for (int i = 0; i < count; i++ ){
+                        for (int i = 0; i < count; i++ ){ //loops through array
                                 double K = converters[i].Vout/converters[i].Vin; //finds duty ratio
                                 double C = (converters[i].Vout/(8*pow(converters[i].fs,2)*converters[i].deltav*converters[i].L))*(1-K); //finds capacitance 
                                 printf("%d \t %lf \n",i,C);
@@ -245,7 +245,7 @@ void capacitor_selector_buck(void) {
     free(converters);
 }
 
-void capacitor_selector_boost(void) {
+void capacitor_selector_boost(void) {//calculates capacitance for boost converter
     printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Capacitor Selector Boost\n");
     int count = 0;
@@ -287,14 +287,14 @@ void capacitor_selector_boost(void) {
                 for (int i = 0; i < count; i++ ){
                         double K = 1 - (converters[i].Vin/converters[i].Vout); //finds duty ratio
                         double C = (converters[i].Vout*K)/(converters[i].deltav*converters[i].R*converters[i].fs); //finds capacitance 
-                        printf("%d \t %lf \n",i,C);
+                        printf("%d \t %lf \n",i,C); //prints capacitances
         }
         printf("\nPlease press enter to continue.\n");
     }
     free(converters);
 }
 
-int boundary_current_buck(void) {
+int boundary_current_buck(void) {//calculates boundary current for buck converter
     printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Boundary Current Calculator Buck\n");
     int count = 0;
@@ -356,7 +356,7 @@ int boundary_current_buck(void) {
     free(converters);
 }
 
-int boundary_current_boost(void) {
+int boundary_current_boost(void) {//calculates boundary current for boost converter
     printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("\n>> Boundary Current Calculator Boost\n");
     int count = 0;
@@ -413,7 +413,7 @@ int boundary_current_boost(void) {
                         double T = 1/converters[i].fs; //finds period 
                         double IL = ((K*T)/2*converters[i].L) * converters[i].Vin;
                         printf("%d \t %lf \n",i,IL);
-                        fprintf(output, "%lf,%lf\n",K,IL); //add data to output file
+                        fprintf(output, "%lf,%lf\n",K,IL); //writes data to output file
                 }
         printf("\nMaximum Boundary Current is = \n");
                 for (int i = 0; i < count; i++ ){

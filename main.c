@@ -91,6 +91,7 @@ static converter_type select_menu_item(int input, converter_type c)
                 inductor_selector_boost(); //runs inductor selector function for boost
             }
             go_back_to_main();
+            return c;  //returns converter type
             break;
         case 2:
             if (c == BUCK){ //checks if buck was selected
@@ -100,6 +101,7 @@ static converter_type select_menu_item(int input, converter_type c)
                 capacitor_selector_boost(); //runs capacitor selector function for boost
             }
             go_back_to_main();
+            return c;
             break;
         case 3:
             if (c == BUCK){ //checks if buck was selected
@@ -109,6 +111,7 @@ static converter_type select_menu_item(int input, converter_type c)
                 boundary_current_boost(); //runs boundary current function for boost
             }
             go_back_to_main();
+            return c;
             break;
         case 4:
             converter_type new_conv = change_converter();//lets user change between buck or boost converter
