@@ -19,9 +19,10 @@ static int  is_integer(const char *s);  /* validate integer string */
 
 int main(void)
 {
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     /*Select converter type initially*/
     converter_type users_conv = converter_selector();
-    
+    printf("\n----------------------------------------------------------------------------------------------------------\n");
     /* this will run forever until we call exit(0) in select_menu_item() */
     for(;;) {
        users_conv = main_menu(users_conv);
@@ -42,7 +43,7 @@ static converter_type main_menu(converter_type c)
 
 static int get_user_input(void)
 {
-    enum { MENU_ITEMS = 6 };   /* 1..5 = items, 6 = Exit */
+    enum { MENU_ITEMS = 5 };   /* 1..5 = items, 6 = Exit */
     char buf[128];
     int valid_input = 0;
     int value = 0;
@@ -79,6 +80,7 @@ static converter_type select_menu_item(int input, converter_type c)
 {
     switch (input) {
         case 1:
+        char buf[64];
             if (c == BUCK){ //checks if buck was selected
                 inductor_selector_buck();//runs inductor selector function for buck
             }
@@ -106,10 +108,6 @@ static converter_type select_menu_item(int input, converter_type c)
             go_back_to_main();
             break;
         case 4:
-            menu_item_4();
-            go_back_to_main();
-            break;
-        case 5:
             converter_type new_conv = change_converter();//lets user change between buck or boost converter
             return new_conv;
             go_back_to_main();
@@ -122,17 +120,13 @@ static converter_type select_menu_item(int input, converter_type c)
 
 static void print_main_menu(void)
 {
-    printf("\n----------- Main Menu -----------\n");
-    printf("\n"
-           "\t\t\t\t\t\t\n"
-           "\t1. Inductor Selector\t\t\n"
-           "\t2. Output Capacitor Selector\t\n"
-           "\t3. Boundary Current Calculator\n"
-           "\t4. CCM or DCM Calculator\t\t\n"
-           "\t5. Change Converter Type\t\t\n"
-           "\t6. Exit\t\t\t\t\n"
-           "\t\t\t\t\t\t\n");
-    printf("-------------------------------------------------\n");
+    printf("\n-------------- Main Menu ----------------\n"
+           "|\t1. Inductor Selector\t\t|\n"
+           "|\t2. Output Capacitor Selector\t|\n"
+           "|\t3. Boundary Current Calculator\t|\n"
+           "|\t4. Change Converter Type\t|\n"
+           "|\t5. Exit\t\t\t\t|\n");
+    printf("-----------------------------------------\n");
 }
 
 static void go_back_to_main(void)
@@ -144,7 +138,7 @@ static void go_back_to_main(void)
             puts("\nInput error. Exiting.");
             exit(1);
         }
-        buf[strcspn(buf, "\r\n")] = '\0'; /* strip newline */
+        buf[strcspn(buf, "\r\n")] = '\0'; //strips trailing line
     } while (!(buf[0] == 'b' || buf[0] == 'B') || buf[1] != '\0');
 }
 

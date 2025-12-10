@@ -24,11 +24,10 @@ void inductor_selector_buck(void);
 void inductor_selector_boost(void);
 void capacitor_selector_buck(void);
 void capacitor_selector_boost(void);
-void boundary_current_buck(void);
-void boundary_current_boost(void);
-void menu_item_4(void);
+int boundary_current_buck(void);
+int boundary_current_boost(void);
 Converter* read_file(const char *filename, int *count);
-Converter* file_or_manual();
+Converter* file_or_manual(int *count);
 converter_type change_converter(void);
 
 #endif

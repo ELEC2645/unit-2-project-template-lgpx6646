@@ -3,15 +3,18 @@
 #include <stdlib.h> // for atof
 #include <string.h>
 #include "funcs.h"
+
 #define MAX_NUMBERS 100 // maximum numbers to process from input file
 #define MAX_LINE 100 //maximum numbers to process in file
+
 
 converter_type converter_selector(void) { //asks user to input their converter type
     while(1){ 
         int choice;
-        printf("\n\tChoose your converter type:\n"
-               "\n\t1. Buck\n"
-               "\n\t2. Boost\n"
+        printf("\n\t----------Choose your converter type: -----------\n"
+               "\t|\t\t1. Buck\t\t\t\t|\n"
+               "\t|\t\t2. Boost\t\t\t|\n"                           
+               "\t-------------------------------------------------\n"
                "\nEnter choice: ");
     
         if(scanf("%d",&choice) != 1) { //checks user has inputted a number
@@ -31,194 +34,6 @@ converter_type converter_selector(void) { //asks user to input their converter t
         }
     }
     
-}
-
-
-void inductor_selector_buck(void) { //performs a calculation to find correct inductor values for a buck converter
-    float Vin; //declare variables
-    float Vout;
-    float deltai;
-    float fs;
-    printf("\n>> Inductor Selector Buck\n");
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput current ripple: \n");
-    if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = Vout/ Vin; //finds duty ratio
-    float L = ((1-K)*Vout)/(fs*deltai); //finds inductance
-    printf("Inductance = %f",L);
-}
-
-void inductor_selector_boost(void){ //performs a calculation to find correct inductor values for a boost converter
-    float Vout; //declare variables
-    float Vin;
-    float deltai;
-    float fs;
-    printf("\n>> Inductor Selector Boost\n");
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput current ripple: \n");
-    if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = 1 - (Vin/Vout); //finds duty ratio
-    float L = (Vin * K)/(fs * deltai); //finds inductance
-    printf("Inductance = %f",L);
-}
-
-void capacitor_selector_buck(void) {
-     float Vout; //declare variables
-    float Vin;
-    float L;
-    float deltav;
-    float fs;
-    printf("\n>> Capacitor Selector Buck\n");
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput voltage ripple: \n");
-    if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput inductance: \n");
-    if(scanf("%f",&L) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = Vout/ Vin;
-    float C = (Vout/(8*pow(fs,2)*deltav*L))*(1-K);
-    printf("Capacitance = %f",C);
-}
-
-void capacitor_selector_boost(void) {
-    float Vout; //declare variables
-    float Vin;
-    float fs;
-    float deltav;
-    float R;
-    printf("\n>> Capacitor Selector Boost\n");
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput voltage ripple: \n");
-    if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput load resistance: \n");
-    if(scanf("%f",&R) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = 1 - (Vin/ Vout);
-    float C = (Vout*K)/(deltav*R*fs);
-    printf("Capacitance = %f",C);
-}
-
-void boundary_current_buck(void) {
-    printf("\n>> Boundary Current Calculator Buck\n");
-     float Vout; //declare variables
-    float Vin;
-    float fs;
-    float L;
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput inductance: \n");
-    if(scanf("%f",&L) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = Vout/Vin;
-    float T = 1/fs;
-    float I = ((Vin * T)/(2*L)) * K *(1-K);
-    float Imax = (T * Vin)/ (8 * L);
-    printf("\nBoundary Current = %f",I);
-    printf("\nMaximum Boundary Current is: %f, when K=0.5", Imax);  
-}
-
-void boundary_current_boost(void) {
-    printf("\n>> Boundary Current Calculator Boost\n");
-    float Vout; //declare variables
-    float Vin;
-    float fs;
-    float L;
-    printf("\nInput Vin: \n");
-    if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput Vout: \n");
-    if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput switching frequency: \n");
-    if(scanf("%f",&fs) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    printf("\nInput inductance: \n");
-    if(scanf("%f",&L) != 1) { //checks user has inputted a number
-            printf("Invalid input! Please enter a number.");
-    }
-    float K = 1 - Vin/Vout;
-    float T = 1/fs;
-    float I = ((Vin * T)/(2*L)) * K *(1-K);
-    float Imax = (T * Vin)/ (8 * L);
-    float IL = ((K*T)/(2*L)) * Vin;
-    printf("\nOutput Boundary Current = %f",I);
-    printf("\nInductor Boundary Current: %f", IL);
-    printf("\nMaximum Boundary Current is: %f, when K=0.5", Imax); 
-    
-}
-
-void menu_item_4(void) {
-    printf("\n>> Menu 4\n");
-    printf("\nSome code here does something useful\n");
-    /* you can call a function from here that handles menu 4 */
 }
 
 Converter* read_file(const char *filename, int *count){ //function to read data from file inputted by user
@@ -278,8 +93,7 @@ Converter* read_file(const char *filename, int *count){ //function to read data 
     return converters; 
 }
 
-Converter* file_or_manual(){ //asks if the user wants to input a file 
-        int count;
+Converter* file_or_manual(int *count){ //asks if the user wants to input a file 
 /*Returns file data if user wants to use a file*/
    char buf[64];
     do {
@@ -296,13 +110,320 @@ Converter* file_or_manual(){ //asks if the user wants to input a file
         char name[64];
         fgets(name, sizeof(name), stdin);
         name[strcspn(name, "\r\n")] = '\0';//strips trailing newline
-        return read_file(name, &count); //reads file
+        return read_file(name, count); //reads file
     }
     else{
         printf("Manual input");
     }
     return NULL;
     //exits if user wants manual input
+}
+
+void inductor_selector_buck() { //performs a calculation to find correct inductor values for a buck converter
+        printf("\n>> Inductor Selector Buck\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){ //checks if manual input
+        float Vin; //declare variables
+        float Vout;
+        float deltai;
+        float fs;
+
+        printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput current ripple: \n");
+        if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = Vout/ Vin; //finds duty ratio
+        float L = ((1-K)*Vout)/(fs*deltai); //finds inductance
+        printf("Inductance = %f\n",L);
+    }
+    else { //if file input 
+        printf("Inductance = \n");
+        for (int i = 0; i < count; i++ ){
+                double K = converters[i].Vout/ converters[i].Vin; //finds duty ratio
+                converters[i].L = ((1-K)*converters[i].Vout)/(converters[i].fs*converters[i].deltai); //finds inductance 
+                printf("%d \t %lf \n",i,converters[i].L);
+        }
+    }
+    free(converters);
+}
+
+void inductor_selector_boost(void){ //performs a calculation to find correct inductor values for a boost converter
+        printf("\n>> Inductor Selector Boost\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){ //checks if manual input
+        float Vout; //declare variables
+        float Vin;
+        float deltai;
+        float fs;
+
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+         printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput current ripple: \n");
+        if(scanf("%f",&deltai) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = 1 - (Vin/Vout); //finds duty ratio
+        float L = (Vin * K)/(fs * deltai); //finds inductance
+        printf("Inductance = %f\n",L);
+        }
+        else {
+                printf("Inductance = \n");
+                        for (int i = 0; i < count; i++ ){
+                                double K = 1 - (converters[i].Vin/ converters[i].Vout); //finds duty ratio
+                                converters[i].L = (converters[i].Vin * K)/(converters[i].fs * converters[i].deltai); //finds inductance 
+                                 printf("%d \t %lf \n",i,converters[i].L);
+        }
+        }
+        free(converters);
+}
+
+void capacitor_selector_buck(void) {
+    printf("\n>> Capacitor Selector Buck\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){ 
+        float Vout; //declare variables
+        float Vin;
+        float L;
+        float deltav;
+        float fs;
+
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput voltage ripple: \n");
+        if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput inductance: \n");
+        if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = Vout/ Vin;
+        float C = (Vout/(8*pow(fs,2)*deltav*L))*(1-K);
+        printf("Capacitance = %f\n",C);
+    }
+    else{
+         printf("Capacitance = \n");
+                        for (int i = 0; i < count; i++ ){
+                                double K = converters[i].Vout/converters[i].Vin; //finds duty ratio
+                                double C = (converters[i].Vout/(8*pow(converters[i].fs,2)*converters[i].deltav*converters[i].L))*(1-K); //finds capacitance 
+                                printf("%d \t %lf \n",i,C);
+                        }
+    }
+    free(converters);
+}
+
+void capacitor_selector_boost(void) {
+    printf("\n>> Capacitor Selector Boost\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){
+        float Vout; //declare variables
+        float Vin;
+        float fs;
+        float deltav;
+        float R;
+
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput voltage ripple: \n");
+        if(scanf("%f",&deltav) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput load resistance: \n");
+        if(scanf("%f",&R) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = 1 - (Vin/ Vout);
+        float C = (Vout*K)/(deltav*R*fs);
+        printf("Capacitance = %f",C);
+    }
+    else {
+        printf("Capacitance = \n");
+                for (int i = 0; i < count; i++ ){
+                        double K = 1 - (converters[i].Vin/converters[i].Vout); //finds duty ratio
+                        double C = (converters[i].Vout*K)/(converters[i].deltav*converters[i].R*converters[i].fs); //finds capacitance 
+                        printf("%d \t %lf \n",i,C);
+        }
+    }
+    free(converters);
+}
+
+int boundary_current_buck(void) {
+    printf("\n>> Boundary Current Calculator Buck\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){
+        float Vout; //declare variables
+        float Vin;
+        float fs;
+        float L;
+
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput inductance: \n");
+        if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = Vout/Vin;
+        float T = 1/fs;
+        float I = ((Vin * T)/(2*L)) * K *(1-K);
+        float Imax = (T * Vin)/ (8 * L);
+        printf("\nBoundary Current = %f\n",I);
+        printf("\nMaximum Boundary Current is: %f, when K=0.5\n", Imax);  
+    }    
+    else{
+    FILE *output = fopen("outputbuck.csv", "w"); //create output file
+    if (output == NULL){
+        printf("\nError opening file\n");
+        return 1;
+    }
+    fprintf(output,"K, Boundary Current\n"); //header
+        printf("Boundary Current = \n");
+                for (int i = 0; i < count; i++ ){//loop through arrays
+                        double K = converters[i].Vin/converters[i].Vout; //finds duty ratio
+                        double T = 1/converters[i].fs; //finds period 
+                        double I = ((converters[i].Vin * T)/(2 * converters[i].L)) * K * (1-K);
+                        fprintf(output, "%lf,%lf\n",K,I); //add data to output file
+                        printf("%d \t %lf \n",i,I);
+                }
+        printf("\nMaximum Boundary Current is = \n");
+                for (int i = 0; i < count; i++ ){
+                        double T = 1/converters[i].fs; //finds period 
+                        double Imax = (T * converters[i].Vin)/ (8 * converters[i].L);
+                        printf("%d \t %lf \n",i,Imax);
+                }
+    fclose(output);//close output file
+    }   
+    free(converters);
+}
+
+int boundary_current_boost(void) {
+    printf("\n>> Boundary Current Calculator Boost\n");
+    int count = 0;
+    Converter* converters = file_or_manual(&count);
+
+    if(converters == NULL){
+        float Vout; //declare variables
+        float Vin;
+        float fs;
+        float L;
+
+        printf("\nInput Vin: \n");
+        if(scanf("%f",&Vin) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput Vout: \n");
+        if(scanf("%f",&Vout) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput switching frequency: \n");
+        if(scanf("%f",&fs) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        printf("\nInput inductance: \n");
+        if(scanf("%f",&L) != 1) { //checks user has inputted a number
+            printf("Invalid input! Please enter a number.");
+        }
+        float K = 1 - Vin/Vout;
+        float T = 1/fs;
+        float I = ((Vin * T)/(2*L)) * K *(1-K);
+        float Imax = (T * Vin)/ (8 * L);
+        float IL = ((K*T)/(2*L)) * Vin;
+        printf("\nOutput Boundary Current = %f",I);
+        printf("\nInductor Boundary Current: %f", IL);
+        printf("\nMaximum Boundary Current is: %f, when K=0.5", Imax); 
+        }
+    else {
+        FILE *output = fopen("outputboost.csv", "w"); //create output file
+        if (output == NULL){
+            printf("\nError opening file\n");
+            return 1;
+        }
+        fprintf(output,"K, Boundary Current\n"); //header
+        printf("Output Boundary Current = \n");
+                for (int i = 0; i < count; i++ ){
+                        double K = 1 - converters[i].Vout/converters[i].Vin; //finds duty ratio
+                        double T = 1/converters[i].fs; //finds period 
+                        double I = ((converters[i].Vin * T)/(2 * converters[i].L)) * K * (1-K);
+                        printf("%d \t %lf \n",i,I);
+                }
+        printf("\nInductor Boundary Current = \n");
+                for (int i = 0; i < count; i++ ){
+                        double K = 1 - converters[i].Vout/converters[i].Vin; //finds duty ratio
+                        double T = 1/converters[i].fs; //finds period 
+                        double IL = ((K*T)/2*converters[i].L) * converters[i].Vin;
+                        printf("%d \t %lf \n",i,IL);
+                        fprintf(output, "%lf,%lf\n",K,IL); //add data to output file
+                }
+        printf("\nMaximum Boundary Current is = \n");
+                for (int i = 0; i < count; i++ ){
+                        double T = 1/converters[i].fs; //finds period 
+                        double Imax = (T * converters[i].Vin)/ (8 * converters[i].L);
+                        printf("%d \t %lf \n",i,Imax);
+                }
+        fclose(output);//close output file
+    }   
+    free(converters); 
 }
 
 
